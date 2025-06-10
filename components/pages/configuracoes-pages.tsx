@@ -40,7 +40,7 @@ export function ConfiguracoesPage() {
     if (editandoHospital) {
       atualizarHospital(editandoHospital.id, formData)
     } else {
-      adicionarHospital(formData)
+      adicionarHospital(formData) // This doesn't need the return value here
     }
     setFormData({ nome: "", cnpj: "", endereco: "", telefone: "" })
     setEditandoHospital(null)
