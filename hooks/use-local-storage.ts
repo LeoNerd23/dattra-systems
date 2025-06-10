@@ -1,57 +1,41 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
-import { useHospital } from "@/contexts/hospital-context"
+import { useState } from "react"
 
 export function useLocalStorage<T>(key: string, initialValue: T) {
-  const { hospitalAtual } = useHospital()
-
-  // Create hospital-specific key
-  const hospitalKey = hospitalAtual ? `${hospitalAtual.id}-${key}` : key
-
-  // Initialize state with a function to avoid recreating initialValue
+  // Estado para armazenar o valor
   const [storedValue, setStoredValue] = useState<T>(() => {
     if (typeof window === "undefined") {
       return initialValue
     }
     try {
-      const item = window.localStorage.getItem(hospitalKey)
+      // Obter do localStorage pelo key
+      const item = window.localStorage.getItem(key)
+      // Analisar o item armazenado ou retornar initialValue
       return item ? JSON.parse(item) : initialValue
     } catch (error) {
+      // Se ocorrer erro, retornar initialValue
       console.log(error)
       return initialValue
     }
   })
 
-  // Memoize the setValue function to prevent unnecessary re-renders
-  const setValue = useCallback(
-    (value: T | ((val: T) => T)) => {
-      try {
-        const valueToStore = value instanceof Function ? value(storedValue) : value
-        setStoredValue(valueToStore)
-        if (typeof window !== "undefined") {
-          window.localStorage.setItem(hospitalKey, JSON.stringify(valueToStore))
-        }
-      } catch (error) {
-        console.log(error)
+  // Retornar uma versão encapsulada da função setter do useState
+  const setValue = (value: T | ((val: T) => T)) => {
+    try {
+      // Permitir que o valor seja uma função para que tenhamos a mesma API que useState
+      const valueToStore = value instanceof Function ? value(storedValue) : value
+      // Salvar estado
+      setStoredValue(valueToStore)
+      // Salvar no localStorage
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem(key, JSON.stringify(valueToStore))
       }
-    },
-    [hospitalKey, storedValue],
-  )
-
-  // Reload data when hospital changes (but not on initial render)
-  useEffect(() => {
-    if (typeof window !== "undefined" && hospitalAtual) {
-      try {
-        const item = window.localStorage.getItem(hospitalKey)
-        const newValue = item ? JSON.parse(item) : initialValue
-        setStoredValue(newValue)
-      } catch (error) {
-        console.log(error)
-        setStoredValue(initialValue)
-      }
+    } catch (error) {
+      // Uma implementação mais avançada trataria o caso de erro
+      console.log(error)
     }
-  }, [hospitalAtual]) // Only depend on hospitalAtual, not the full object or initialValue
+  }
 
   return [storedValue, setValue] as const
 }

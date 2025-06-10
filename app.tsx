@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react"
 import { HomePage } from "./components/home-page"
 import { Dashboard } from "./components/dashboard"
-import { HospitalProvider } from "./contexts/hospital-context"
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -45,9 +44,7 @@ export default function App() {
   return (
     <div className="min-h-screen">
       {isLoggedIn ? (
-        <HospitalProvider>
-          <Dashboard onLogout={handleLogout} currentPage={currentPage} />
-        </HospitalProvider>
+        <Dashboard onLogout={handleLogout} currentPage={currentPage} />
       ) : (
         <HomePage onLogin={handleLogin} />
       )}

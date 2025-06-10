@@ -6,19 +6,17 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage } from "@/components/ui/breadcrumb"
-import { LogOut, Building2 } from "lucide-react"
+import { LogOut } from "lucide-react"
 
 import { ReceitasPage } from "./pages/receitas-page"
 import { FaturamentoPage } from "./pages/faturamento-page"
 import { PacientesPage } from "./pages/pacientes-pages"
 import { AgendamentosPage } from "./pages/agendamentos-pages"
 import { RelatoriosPage } from "./pages/relatorios-page"
-import { ConfiguracoesPage } from "./pages/configuracoes-pages"
 
 import { RevenueChart } from "./charts/revenue-chart"
 import { BillingStatusChart } from "./charts/billing-status-chart"
 import { DashboardStats } from "./dashboard-stats"
-import { useHospital } from "@/contexts/hospital-context"
 
 interface DashboardProps {
   onLogout: () => void
@@ -26,8 +24,6 @@ interface DashboardProps {
 }
 
 export function Dashboard({ onLogout, currentPage = "Dashboard" }: DashboardProps) {
-  const { hospitalAtual } = useHospital()
-
   return (
     <SidebarProvider>
       <AppSidebar currentPage={currentPage} />
@@ -38,16 +34,7 @@ export function Dashboard({ onLogout, currentPage = "Dashboard" }: DashboardProp
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbPage className="flex items-center gap-2">
-                  {hospitalAtual && (
-                    <>
-                      <Building2 className="h-4 w-4 text-blue-600" />
-                      <span className="text-sm text-muted-foreground">{hospitalAtual.nome}</span>
-                      <Separator orientation="vertical" className="h-4" />
-                    </>
-                  )}
-                  {currentPage}
-                </BreadcrumbPage>
+                <BreadcrumbPage>{currentPage}</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -61,34 +48,13 @@ export function Dashboard({ onLogout, currentPage = "Dashboard" }: DashboardProp
 
         {currentPage === "Dashboard" && (
           <div className="flex flex-1 flex-col gap-4 p-4">
-            {hospitalAtual && (
-              <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200">
-                <CardHeader className="pb-3">
-                  <div className="flex items-center gap-3">
-                    <div className="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-lg">
-                      <Building2 className="w-5 h-5 text-blue-600" />
-                    </div>
-                    <div>
-                      <CardTitle className="text-lg">{hospitalAtual.nome}</CardTitle>
-                      <CardDescription className="text-sm">
-                        CNPJ: {hospitalAtual.cnpj} • {hospitalAtual.endereco}
-                      </CardDescription>
-                    </div>
-                  </div>
-                </CardHeader>
-              </Card>
-            )}
-
             <DashboardStats />
 
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
               <Card className="col-span-4">
                 <CardHeader>
                   <CardTitle>Receita Mensal</CardTitle>
-                  <CardDescription>
-                    Evolução da receita baseada nos dados registrados
-                    {hospitalAtual && ` - ${hospitalAtual.nome}`}
-                  </CardDescription>
+                  <CardDescription>Evolução da receita baseada nos dados registrados</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <RevenueChart />
@@ -98,10 +64,7 @@ export function Dashboard({ onLogout, currentPage = "Dashboard" }: DashboardProp
               <Card className="col-span-3">
                 <CardHeader>
                   <CardTitle>Status dos Faturamentos</CardTitle>
-                  <CardDescription>
-                    Distribuição por status dos faturamentos
-                    {hospitalAtual && ` - ${hospitalAtual.nome}`}
-                  </CardDescription>
+                  <CardDescription>Distribuição por status dos faturamentos</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <BillingStatusChart />
@@ -133,8 +96,6 @@ function PageContent({ pageName }: { pageName: string }) {
       return <AgendamentosPage />
     case "Relatórios":
       return <RelatoriosPage />
-    case "Configurações":
-      return <ConfiguracoesPage />
     default:
       return (
         <Card>

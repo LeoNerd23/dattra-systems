@@ -25,7 +25,6 @@ import {
   SidebarHeader,
   SidebarFooter,
 } from "@/components/ui/sidebar"
-import { HospitalSelector } from "./hospital-selector"
 
 interface AppSidebarProps {
   currentPage?: string
@@ -80,12 +79,11 @@ const analyticsItems = [
 export function AppSidebar({ currentPage = "Dashboard" }: AppSidebarProps) {
   return (
     <Sidebar>
-      <SidebarHeader className="p-0">
-        <div className="flex items-center space-x-2 px-6 py-4 border-b">
+      <SidebarHeader className="border-b px-6 py-4">
+        <div className="flex items-center space-x-2">
           <Hospital className="h-6 w-6 text-blue-600" />
           <span className="text-lg font-bold">Dattra</span>
         </div>
-        <HospitalSelector />
       </SidebarHeader>
 
       <SidebarContent>
