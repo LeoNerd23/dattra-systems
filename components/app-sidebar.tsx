@@ -9,6 +9,7 @@ import {
   Settings,
   Users,
   TrendingUp,
+  Calculator,
   Calendar,
   CreditCard,
 } from "lucide-react"
@@ -25,6 +26,7 @@ import {
   SidebarHeader,
   SidebarFooter,
 } from "@/components/ui/sidebar"
+import Image from 'next/image'
 
 interface AppSidebarProps {
   currentPage?: string
@@ -65,14 +67,9 @@ const menuItems = [
 
 const analyticsItems = [
   {
-    title: "Performance",
-    icon: TrendingUp,
-    url: "#performance",
-  },
-  {
-    title: "Documentos",
-    icon: FileText,
-    url: "#documentos",
+    title: "Calculadora",
+    icon: Calculator,
+    url: "#calculadora",
   },
 ]
 
@@ -81,7 +78,7 @@ export function AppSidebar({ currentPage = "Dashboard" }: AppSidebarProps) {
     <Sidebar>
       <SidebarHeader className="border-b px-6 py-4">
         <div className="flex items-center space-x-2">
-          <Hospital className="h-6 w-6 text-blue-600" />
+          <Image src="/dattra-icon.png" alt="Logo da Dattra" width={30} height={50} />
           <span className="text-lg font-bold">Dattra</span>
         </div>
       </SidebarHeader>
@@ -106,7 +103,7 @@ export function AppSidebar({ currentPage = "Dashboard" }: AppSidebarProps) {
         </SidebarGroup>
 
         <SidebarGroup>
-          <SidebarGroupLabel>Análises</SidebarGroupLabel>
+          <SidebarGroupLabel>Serviços</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {analyticsItems.map((item) => (

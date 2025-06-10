@@ -21,9 +21,25 @@ export default function App() {
     const handleHashChange = () => {
       const hash = window.location.hash.replace("#", "")
       if (hash) {
-        // Capitalize first letter
-        const page = hash.charAt(0).toUpperCase() + hash.slice(1)
+        // Mapear hashes para nomes de páginas
+        const pageMap: Record<string, string> = {
+          dashboard: "Dashboard",
+          receitas: "Receitas",
+          faturamento: "Faturamento",
+          calculadora: "Calculadora",
+          relatorios: "Relatórios",
+          pacientes: "Pacientes",
+          agendamentos: "Agendamentos",
+          performance: "Performance",
+          documentos: "Documentos",
+          configuracoes: "Configurações",
+        }
+
+        const page = pageMap[hash.toLowerCase()] || "Dashboard"
         setCurrentPage(page)
+
+        // Debug
+        console.log(`Hash: ${hash}, Page: ${page}`)
       } else {
         setCurrentPage("Dashboard")
       }

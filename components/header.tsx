@@ -7,7 +7,9 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { LogIn, Activity } from "lucide-react"
+import { LogIn } from "lucide-react"
+import Image from 'next/image'
+
 
 interface HeaderProps {
   onLogin: () => void
@@ -26,13 +28,13 @@ export function Header({ onLogin }: HeaderProps) {
     <header className="border-b bg-white">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          <Activity className="h-8 w-8 text-blue-600" />
+          <Image src="/dattra-icon.png" alt="Logo da Dattra" width={30} height={50} />
           <span className="text-2xl font-bold text-gray-900">Dattra</span>
         </div>
 
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
-            <Button variant="outline" className="flex items-center space-x-2">
+            <Button variant="outline" className="flex items-center space-x-2 cursor-pointer">
               <LogIn className="h-4 w-4" />
               <span>Login</span>
             </Button>

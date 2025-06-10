@@ -17,6 +17,8 @@ import { RelatoriosPage } from "./pages/relatorios-page"
 import { RevenueChart } from "./charts/revenue-chart"
 import { BillingStatusChart } from "./charts/billing-status-chart"
 import { DashboardStats } from "./dashboard-stats"
+import { ConfiguracoesPage } from "./pages/configuracoes-page"
+import { CalculadoraPage } from "./pages/calculadora-page"
 
 interface DashboardProps {
   onLogout: () => void
@@ -96,6 +98,10 @@ function PageContent({ pageName }: { pageName: string }) {
       return <AgendamentosPage />
     case "Relatórios":
       return <RelatoriosPage />
+    case "Configurações":
+      return <ConfiguracoesPage />
+    case "Calculadora":
+      return <CalculadoraPage />
     default:
       return (
         <Card>
